@@ -1,0 +1,110 @@
+# ProofDesk — Forge app manifest (Codegeist 2026)
+#
+# Hand-written scaffold (Phase 0), registered and deployed 2026-11-27:
+# the app id below is the real one, and the app is installed on
+# proofdesk-dev.atlassian.net (development environment). See
+# ../EVIDENCE.md for the deploy record and the fixes the first deploy
+# required (render: native, icon URL, action description limit,
+# bundler syntax limits).
+#
+# Free-path discipline (PLAN.md / RESEARCH.md): this app never calls Forge
+# LLM APIs. All checks are deterministic code; Rovo is the only AI layer
+# and its credits are paid by the installing customer's org, never by us.
+
+modules:
+  jira:issuePanel:
+    - key: proofdesk-issue-panel
+      resource: main
+      render: native
+      resolver:
+        function: resolver
+      title: ProofDesk
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  jira:globalPage:
+    - key: proofdesk-ledger-page
+      resource: ledger
+      render: native
+      resolver:
+        function: resolver
+      title: ProofDesk Ledger
+  # --- Rovo layer (Phase 2): declared here, implemented in src/rovo.js ---
+  rovo:agent:
+    - key: proofdesk-verifier-agent
+      name: ProofDesk Verifier
+      description: >-
+        Verifies the evidence attached to Jira approval claims (vendor
+        deliveries, expenses, contractor milestones) and reports the ProofDesk
+        receipt verdict: what checks passed, what is missing, and whether
+        anything mismatches or duplicates an earlier claim.
+      prompt: >
+        You are ProofDesk Verifier, an agent that checks whether the evidence on
+        a Jira approval issue actually supports the claim before a human
+        approves it. When a user asks you to verify a claim, call the
+        verify-evidence action with the issue key. Report the verdict exactly as
+        the action returns it (VERIFIED, NEEDS EVIDENCE, or MISMATCH), list
+        which checks passed and which failed, and name the specific missing
+        evidence or mismatched values. When a user asks for the receipt of an
+        issue, call the get-receipt action. Never invent check results: if an
+        action returns no receipt, say that the issue has not been verified yet.
+      conversationStarters:
+        - Verify the evidence on this claim and tell me what is missing
+        - Show me the latest ProofDesk receipt for an issue
+      actions:
+        - verify-evidence
+        - get-receipt
+  action:
+    - key: verify-evidence
+      name: Verify evidence
+      function: rovo-verify
+      actionVerb: CREATE
+      description: >-
+        Runs the ProofDesk checks on a Jira approval issue: evidence
+        completeness, amount and currency consistency against the linked
+        purchase order, and duplicate detection against the receipt
+        registry. Returns the verdict with per-check results.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: >-
+            The Jira issue key of the claim to verify, for example FIN-142.
+    - key: get-receipt
+      name: Get receipt
+      function: rovo-get-receipt
+      actionVerb: GET
+      description: >-
+        Returns the latest ProofDesk receipt stored for a Jira issue: its
+        verdict, per-check results, evidence hashes, and hash-chain link. Use
+        when a user asks for the receipt, verdict, or verification history of an
+        issue.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: >-
+            The Jira issue key to look up, for example FIN-142.
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: rovo-verify
+      handler: rovo.verifyEvidence
+    - key: rovo-get-receipt
+      handler: rovo.getReceipt
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+  - key: ledger
+    path: src/frontend/ledger.jsx
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/df756b01-0fa9-4fa6-82a1-a0b75a849faf
+permissions:
+  scopes:
+    - storage:app
+    - read:jira-work
+    - write:jira-work

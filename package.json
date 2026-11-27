@@ -1,0 +1,24 @@
+{
+  "description": "ProofDesk - an evidence gate for Jira approvals. Forge app built for Atlassian Codegeist 2026 (Apps for Business Teams).",
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "name": "proofdesk",
+  "private": true,
+  "scripts": {
+    "demo": "node demo/run-demo.mjs",
+    "seed": "node scripts/seed-demo.mjs",
+    "seed:apply": "node scripts/seed-demo.mjs --apply",
+    "test": "node --test test/engine.test.mjs test/app.test.mjs"
+  },
+  "dependencies": {
+    "@forge/api": "5.3.0",
+    "@forge/bridge": "4.5.3",
+    "@forge/react": "10.11.1",
+    "@forge/resolver": "1.8.0",
+    "react": "18.3.1"
+  },
+  "type": "module",
+  "version": "0.1.0"
+}
