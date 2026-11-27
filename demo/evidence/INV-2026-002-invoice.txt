@@ -1,0 +1,11 @@
+INVOICE (fabricated sample document for the ProofDesk demo pack)
+
+Vendor:        Brightline Studio
+Invoice no:    INV-2026-002
+PO reference:  PO-1002
+Currency:      USD
+Amount due:    480.00
+
+Description:   Design milestone 2, landing page refresh. Delivery note
+               was never attached to the claim - that is the point of
+               demo case B.

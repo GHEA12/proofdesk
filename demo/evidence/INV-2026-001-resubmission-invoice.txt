@@ -1,0 +1,12 @@
+INVOICE - RESUBMITTED COPY (fabricated sample document for the demo pack)
+
+Vendor:        Acme Logistics
+Invoice no:    INV-2026-001
+PO reference:  PO-1001
+Currency:      USD
+Amount due:    1250.00
+
+Description:   Same invoice number as the claim on FIN-101, typed up
+               again and submitted a second time on FIN-103. The bytes
+               differ from the original file; the invoice number does
+               not. Demo case C: duplicate detection must catch it.

@@ -1,0 +1,11 @@
+INVOICE (fabricated sample document for the ProofDesk demo pack)
+
+Vendor:        Acme Logistics
+Invoice no:    INV-2026-004
+PO reference:  PO-1001
+Currency:      USD
+Amount due:    1300.00
+
+Description:   Follow-up delivery billed 50.00 above the PO amount.
+               Demo case D: the delivery note agrees with the claim,
+               but the claim disagrees with PO-1001 (1250.00).

@@ -1,0 +1,10 @@
+INVOICE (fabricated sample document for the ProofDesk demo pack)
+
+Vendor:        Acme Logistics
+Invoice no:    INV-2026-001
+PO reference:  PO-1001
+Currency:      USD
+Amount due:    1250.00
+
+Description:   Pallet delivery to Surabaya warehouse, incl. cold-chain
+               surcharge. Delivery confirmed by note DN-2026-001.

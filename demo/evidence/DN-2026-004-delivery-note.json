@@ -1,0 +1,1 @@
+{"currency":"USD","lineItems":[{"description":"Pallet delivery, Surabaya warehouse","quantity":10,"total":1000.0,"unitPrice":100.0},{"description":"Cold-chain surcharge","quantity":1,"total":250.0,"unitPrice":250.0},{"description":"Weekend handling fee","quantity":1,"total":50.0,"unitPrice":50.0}],"noteNumber":"DN-2026-004","poReference":"PO-1001","total":1300.0}
